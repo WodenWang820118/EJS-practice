@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 var port = 3000;
 var app = express();
 var items = [];
+var workItems = [];
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
@@ -22,24 +23,51 @@ app.get("/", function (req, res) {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
-  };
-  var day = today.toLocaleDateString('en-us', options);
+  }; //day is the variable here
+
+  var day = today.toLocaleDateString('en-us', options); //the listTitle and the collection is the varaible defined in the list.ejs
+  //use "list" to find the exact file to check the variable
+
   res.render("list", {
-    kindOfDay: day,
+    listTitle: day,
     collection: items
   });
 });
+/**
+ * 1. assign the listTitle to be "Work" -> to use the button value to redirect to the right place
+ * 2. use the same CSS template as home route
+ * 3. the variable listTitle and collection are in the {@link list.ejs"}
+ */
+
+app.get("/work", function (req, res) {
+  res.render("list", {
+    listTitle: "Work",
+    collection: workItems
+  });
+});
+app.get("/about", function (req, res) {
+  res.render("about");
+});
 app.post("/", function (req, res) {
   var item = req.body.newItem;
-  var choice = "";
 
-  if (choice === req.body.addButton) {
+  if (req.body.addButton === "Work") {
+    workItems.push(item);
+    res.redirect("/work");
+  }
+
+  if (req.body.deleteButton === "Work") {
+    workItems.pop();
+    res.redirect("/work");
+  }
+
+  if (req.body.addButton) {
     items.push(item);
+    res.redirect("/");
   }
 
-  if (choice === req.body.deleteButton) {
+  if (req.body.deleteButton) {
     items.pop();
+    res.redirect("/");
   }
-
-  res.redirect("/");
 });
