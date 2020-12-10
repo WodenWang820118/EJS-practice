@@ -1,8 +1,14 @@
 "use strict";
 
+/**
+ * module declaration and imports;
+ * global variables declaration
+ */
 var express = require("express");
 
 var bodyParser = require("body-parser");
+
+var date = require("./date");
 
 var port = 3000;
 var app = express();
@@ -17,15 +23,7 @@ app.listen(port, function () {
   console.log("Server started on port: " + port);
 });
 app.get("/", function (req, res) {
-  var today = new Date();
-  var options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }; //day is the variable here
-
-  var day = today.toLocaleDateString('en-us', options); //the listTitle and the collection is the varaible defined in the list.ejs
+  var day = date.getDate(); //the listTitle and the collection is the varaible defined in the list.ejs
   //use "list" to find the exact file to check the variable
 
   res.render("list", {

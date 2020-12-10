@@ -1,5 +1,10 @@
+/**
+ * module declaration and imports;
+ * global variables declaration
+ */
 const express = require("express");
 const bodyParser = require("body-parser");
+const date = require("./date");
 const port = 3000;
 const app = express();
 let items = [];
@@ -14,16 +19,8 @@ app.listen(port, function(){
 });
 
 app.get("/", function(req, res){
-    var today = new Date();
-    var options = {
-        weekday:'long',
-        year:'numeric',
-        month:'long',
-        day:'numeric'
-    }
-    //day is the variable here
-    var day = today.toLocaleDateString('en-us', options);
-
+    
+    let day = date.getDate();
     //the listTitle and the collection is the varaible defined in the list.ejs
     //use "list" to find the exact file to check the variable
     res.render("list", {listTitle: day, collection: items});
