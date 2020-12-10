@@ -1,1 +1,1 @@
-# EJS
+1. Remember to install the ejs above one layer of this repository, otherwise cannot be used
